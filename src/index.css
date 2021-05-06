@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
+  /* background-image: linear-gradient(to right, black, transparent),
+    url("https://wallpapercave.com/wp/wp5129281.jpg");
+  background-size: cover; */
+}
+
+.MuiDataGrid-colCellWrapper {
+  color: #db3f1d;
+  font-weight: bolder;
+  border-bottom: 2px solid rgb(35, 48, 68, 0.1);
+}
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: #f3b515 !important;
+}
+
+.MuiContainer-root {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.MuiCardHeader-title {
+  color: #db3f1d !important;
+}
+.MuiFormControl-marginNormal {
+  margin-top: unset !important;
+}
+
+.MuiButton-contained.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26) !important;
+  box-shadow: none !important;
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  text-decoration: none;
+}
