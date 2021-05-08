@@ -3,16 +3,17 @@ import { NotificationManager } from "react-notifications";
 import { decodeJWT } from "./decodeJWT";
 
 const getToken = async (payload) => {
-  let token = await jwt.sign(payload, "ShriTembeGaneshMandal2021", {
+  let token = await jwt.sign(payload, process.env.SECRET, {
     expiresIn: "2h",
   });
   await localStorage.setItem("accessToken", token);
 };
 export const checkAuth = ({ username, password }) => {
-  const condition = username === "dhundhiraj" && password === "admin12345";
+  const condition =
+    username === process.env.USERNAME && password === process.env.PASSWORD;
 
   if (condition) {
-    getToken({ id: "dhundhiraj" });
+    getToken({ id: process.env.USERNAME });
     return true;
   } else {
     localStorage.removeItem("accessToken");
@@ -27,10 +28,11 @@ export const checkAuthStatus = () => {
     return false;
   }
   const decodedToken = decodeJWT(token);
+  console.log(decodedToken);
   if (!decodedToken) {
     return false;
   }
-
+  console.log(Date.now(), decodedToken.exp * 1000);
   if (Date.now() >= decodedToken.exp * 1000) {
     return false;
   }

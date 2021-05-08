@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
+import { signInService } from "../../services/authService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,10 +91,21 @@ function Login({ history }) {
       setLoading(false);
       return NotificationManager.warning("Some fields are missing", "Invalid");
     }
+    try {
+      let { username, password } = formData;
+      let response = await signInService({ username, password });
+      await localStorage.setItem("accessToken", response.accessToken);
+      actions.setAuth(true);
+      setLoading(false);
+    } catch (err) {
+      NotificationManager.error("Incorrect username or password", "Error");
+      actions.setAuth(false);
+      setLoading(false);
+    }
+    // let auth = await checkAuth(formData);
 
-    let auth = await checkAuth(formData);
-    actions.setAuth(auth);
-    setLoading(false);
+    // actions.setAuth(auth);
+    // setLoading(false);
   };
 
   const checkHandler = (e) => {
