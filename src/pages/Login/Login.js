@@ -98,6 +98,7 @@ function Login({ history }) {
       actions.setAuth(true);
       setLoading(false);
     } catch (err) {
+      NotificationManager.error(err.message, "Error");
       NotificationManager.error("Incorrect username or password", "Error");
       actions.setAuth(false);
       setLoading(false);
@@ -162,6 +163,7 @@ function Login({ history }) {
             className={classes.signinBtn}
             onClick={signInHandler}
             type="button"
+            disabled={loading}
           >
             {loading ? "Signing in..." : "Sign in"}
           </Button>
