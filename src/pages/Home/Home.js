@@ -12,6 +12,7 @@ import { getTotal } from "./../../utils/getTotal";
 import { NotificationManager } from "react-notifications";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { generatePdf } from "./../../utils/pdfGenerator";
+import sendMessage from "./../../utils/SMS";
 function Home() {
   const classes = useStyles();
   const [state, actions] = useGlobal();
@@ -80,7 +81,7 @@ function Home() {
         setSubmitLoading(true);
         let newData = { ...data, amount: Number(data.amount) };
         if (newData.mobile.trim()) {
-          if (newData.mobile.length !== 10) {
+          if (newData.mobile.length !== 10 || isNaN(+newData.mobile)) {
             setSubmitLoading(false);
             return NotificationManager.error("Mobile no. is invalid", "Error");
           }
@@ -90,8 +91,14 @@ function Home() {
         let resp = await createDonation(newData);
         await fetchData();
         await generatePdf(userData);
+
         NotificationManager.success("Your donation is successful !", "Success");
         setSubmitLoading(false);
+        if (newData.mobile.trim()) {
+          if (newData.mobile.length === 10 && !isNaN(+newData.mobile)) {
+            await sendMessage(newData);
+          }
+        }
       } catch (err) {
         NotificationManager.error(err.message, "Error");
         setSubmitLoading(false);
