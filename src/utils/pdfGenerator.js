@@ -20,24 +20,24 @@ export const generatePdf = async (receiptData) => {
   //   doc.addFont('Devanagari.ttf', 'LohitMarathi', 'normal');
 
   // doc.text(1, 3, 'शुभम');
-  doc.text(data.receiptNo, 5, 13.21);
-  doc.text(data.receiptNo, 18, 13.31);
-  doc.text(formattedDate(data.date), 12, 13.21);
-  doc.text(formattedDate(data.date), 25.2, 13.4);
+  doc.text(data.receiptNo, 5, 13.1);
+  doc.text(data.receiptNo, 18.5, 13.1);
+  doc.text(formattedDate(data.date), 12, 13.15);
+  doc.text(formattedDate(data.date), 26, 13.15);
 
   //   doc.text(data.amount, 4.1, 6.30)
   //   doc.text(data.amount, 10, 6.30)
   doc.text(data.name, 4, 14.15);
-  doc.text(data.name, 17.15, 14.15);
+  doc.text(data.name, 17.75, 14.15);
 
-  doc.text(data.numInWords + " Only", 5.5, 16);
-  doc.text(data.numInWords + " Only", 18.5, 16);
+  doc.text(data.numInWords + " Only", 5, 15.9);
+  doc.text(data.numInWords + " Only", 17, 15.9);
 
   doc.setFontSize(16);
-  doc.text(data.mobile.toString(), 4, 17.63);
-  doc.text(data.mobile.toString(), 17, 17.63);
-  doc.text(data.amount.toFixed(2).toString(), 11, 17.63);
-  doc.text(data.amount.toFixed(2).toString(), 24.2, 17.63);
+  doc.text(data.mobile.toString(), 3.8, 17.63);
+  doc.text(data.mobile.toString(), 17.5, 17.63);
+  doc.text(data.amount.toFixed(2).toString(), 10.8, 17.63);
+  doc.text(data.amount.toFixed(2).toString(), 24.3, 17.63);
 
   await doc.save(data.receiptNo + "_Receipt.pdf");
   NotificationManager.success(
