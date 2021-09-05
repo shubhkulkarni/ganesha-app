@@ -23,7 +23,7 @@ export const generatePdf = async (receiptData) => {
   doc.text(data.receiptNo, 5, 13.1);
   doc.text(data.receiptNo, 18.5, 13.1);
   doc.text(formattedDate(data.date), 12, 13.15);
-  doc.text(formattedDate(data.date), 26, 13.15);
+  doc.text(formattedDate(data.date), 25.75, 13.15);
 
   //   doc.text(data.amount, 4.1, 6.30)
   //   doc.text(data.amount, 10, 6.30)
