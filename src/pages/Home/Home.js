@@ -96,7 +96,7 @@ function Home() {
         setSubmitLoading(false);
         if (newData.mobile.trim()) {
           if (newData.mobile.length === 10 && !isNaN(+newData.mobile)) {
-            await sendMessage(newData);
+            // await sendMessage(newData);
           }
         }
       } catch (err) {
