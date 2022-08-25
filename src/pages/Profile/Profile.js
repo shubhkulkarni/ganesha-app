@@ -47,6 +47,20 @@ const columns = [
   },
 ];
 
+const receiptsYears = [
+  {text: "2029",key: "receipt2029"} ,
+  {text: "2028",key: "receipt2028"} ,
+  {text: "2027",key: "receipt2027"} ,
+  {text: "2026",key: "receipt2026"} ,
+  {text: "2025",key: "receipt2025"} ,
+  {text: "2024",key: "receipt2024"} , 
+  {text: "2023",key: "receipt2023"} , 
+  {text: "2022",key: "receipt2022"} ,
+  {text: "2021",key: "receipt2021"} , 
+  {text: "2020",key: "receipt2020"} , 
+  {text: "2019",key: "receipt"} 
+
+]
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -117,7 +131,8 @@ function Profile() {
   const classes = useStyles();
   const [state, actions] = useGlobal();
   const [loading, setLoading] = useState(false);
-  const [recordYear, setRecordYear] = useState("receipt2021");
+  const currentYear = new Date().getFullYear();
+  const [recordYear, setRecordYear] = useState(`receipt${currentYear}`);
   const fetchData = async (year) => {
     setLoading(true);
     try {
@@ -134,8 +149,8 @@ function Profile() {
   useEffect(() => {
     if (!state.paymentsData.length) {
       fetchData(recordYear);
-    } else
-      console.log(JSON.stringify(state.paymentsData.map((i) => i.receiptNo)));
+    } 
+      
   }, []);
   const handleChange = (event) => {
     setRecordYear(event.target.value);
@@ -191,10 +206,13 @@ function Profile() {
                 value={recordYear}
                 onChange={handleChange}
                 label="Select year"
-              >
-                <MenuItem value={"receipt2021"}>2021</MenuItem>
-                <MenuItem value={"receipt2020"}>2020</MenuItem>
-                <MenuItem value={"receipt"}>2019</MenuItem>
+              > 
+                {receiptsYears.map(item => {
+                  if(Number(item.text)<=Number(currentYear)){
+                    return <MenuItem value={item.key} key={item.key}>{item.text}</MenuItem>
+                  } 
+                    return <></>
+                })}
               </Select>
             </FormControl>
           </Grid>

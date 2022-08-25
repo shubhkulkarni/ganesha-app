@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-
+import Image from "../../assets/tembe.jpg";
 export const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -45,7 +45,11 @@ export const useStyles = makeStyles((theme) => ({
   headerPaper: {
     padding: 24,
     borderRadius: 15,
+    // backgroundImage:
+    //   "linear-gradient(90deg, rgb(217, 119, 6), rgb(220, 38, 38))",
     backgroundImage:
-      "linear-gradient(90deg, rgb(217, 119, 6), rgb(220, 38, 38))",
+      `linear-gradient(90deg, rgb(0, 0, 0,0.4), rgb(0, 0, 0,0.2)), url(${Image})`,
+    backgroundPosition: "110% 64%",
+    backgroundClip: "ppadding-box"
   },
 }));

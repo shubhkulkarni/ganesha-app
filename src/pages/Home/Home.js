@@ -14,6 +14,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { generatePdf } from "./../../utils/pdfGenerator";
 import sendMessage from "./../../utils/SMS";
 function Home() {
+
+  const currentYear = new Date().getFullYear();
+
   const classes = useStyles();
   const [state, actions] = useGlobal();
   const [userData, setUserData] = useState({
@@ -25,15 +28,16 @@ function Home() {
     receiptNo: "",
   });
   const getReceiptNo = (data) => {
+    const yr = String(currentYear).slice(-2)
     if (!data.length) {
-      return `TGM/21/00001`;
+      return `TGM/${yr}/00001`;
     }
     let r = data[0].receiptNo;
     let arr = r.split("/");
     console.log(arr);
     let last = Number(arr[arr.length - 1]);
     let padding = (last + 1).toString().padStart(5, "0");
-    return `TGM/21/${padding}`;
+    return `TGM/${yr}/${padding}`;
   };
 
   const [dataLoading, setDataLoading] = useState(false);
@@ -42,11 +46,11 @@ function Home() {
   const fetchData = async () => {
     try {
       setDataLoading(true);
-      let data = await fetchPayments("receipt2021");
+      let data = await fetchPayments(`receipt${currentYear}`);
 
       actions.setPaymentsData(data);
       actions.setPaymentsTotal(getTotal(data));
-      actions.setDataYear("receipt2021");
+      actions.setDataYear(`receipt${currentYear}`);
       setUserData({
         name: "",
         amount: "",
@@ -116,7 +120,7 @@ function Home() {
     }
   };
   useEffect(() => {
-    if (state.dataYear !== "receipt2021" || !state.paymentsData.length) {
+    if (state.dataYear !== `receipt${currentYear}` || !state.paymentsData.length) {
       fetchData();
     } else {
       setUserData({

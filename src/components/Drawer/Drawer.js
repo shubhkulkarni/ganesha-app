@@ -23,7 +23,7 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/ganesha.png";
 import SearchIcon from "@material-ui/icons/Search";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
@@ -53,6 +53,8 @@ function ResponsiveDrawer({ children, ...props }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const date = new Date();
   const drawer = (
     <div>
       <img className={classes.logo} src={logo} />
@@ -123,12 +125,12 @@ function ResponsiveDrawer({ children, ...props }) {
           </IconButton>
           <Hidden smDown>
             <Typography variant="h5" className={classes.title}>
-              श्री टेंबे गणेशोत्सव २०२१
+              श्री टेंबे गणेशोत्सव {date.getFullYear()}
             </Typography>
           </Hidden>
           <Hidden smUp>
             <Typography variant="h5" className={classes.title}>
-              गणेशोत्सव २०२१
+              गणेशोत्सव {date.getFullYear()}
             </Typography>
           </Hidden>
           <Hidden smDown>

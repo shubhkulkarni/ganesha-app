@@ -51,7 +51,7 @@ function DonationForm({ data, error }) {
               fullWidth
               variant="inline"
               inputVariant="outlined"
-              label="Date picker dialog"
+              label="Date"
               required
               format="dd/MM/yyyy"
               value={userData.date}

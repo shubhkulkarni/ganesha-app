@@ -1,7 +1,9 @@
 import axios from "axios";
 import { formattedDate } from "./../utils/dateFormatter";
 
-export async function fetchPayments(year = "receipt2020") {
+const currentYear = new Date().getFullYear();
+
+export async function fetchPayments(year = `receipt${currentYear}`) {
   let response = await axios.get(
     `https://tembeganesha.firebaseio.com/${year}.json`
   );

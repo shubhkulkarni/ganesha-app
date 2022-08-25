@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText,
   },
   logo: {
-    height: 100,
+    height: 120,
     textAlign: "center",
     marginTop: 20,
     marginLeft: 65,

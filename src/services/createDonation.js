@@ -1,9 +1,11 @@
 import axios from "axios";
-import { formattedDate } from "./../utils/dateFormatter";
+
+const currentYear = new Date().getFullYear();
 
 export async function createDonation(data) {
+
   let response = await axios.post(
-    `https://tembeganesha.firebaseio.com/receipt2021.json`,
+    `https://tembeganesha.firebaseio.com/receipt${currentYear}.json`,
     data
   );
   return response.data;

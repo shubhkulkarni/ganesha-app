@@ -23,11 +23,17 @@ const useStyles = makeStyles((theme) => ({
   download: { color: "#4caf50" },
   name: {
     // fontWeight: "bold",
-
+   
     [theme.breakpoints.up("md")]: {
       fontSize: "1.5em",
     },
   },
+  header:{
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "320px",
+  }
 }));
 
 const downloadHandler = async (data) => {
