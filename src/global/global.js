@@ -7,6 +7,7 @@ const initialState = {
   paymentsTotal: 0,
   dataYear: "",
   auth: false,
+  adminMode: false,
 };
 
 export const useGlobal = globalHook(React, initialState, actions);

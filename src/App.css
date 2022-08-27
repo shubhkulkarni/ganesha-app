@@ -1,0 +1,4 @@
+.adminMode-is-true .MuiDataGrid-root .MuiDataGrid-row.Mui-selected{
+    border: 2px dashed red;
+    background-color: rgba(231, 56, 56, 0.267) !important;
+}

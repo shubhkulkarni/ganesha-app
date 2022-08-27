@@ -4,10 +4,12 @@ import { numToWords } from "./numToWords";
 import { NotificationManager } from "react-notifications";
 import "./Sarai_07";
 export const generatePdf = async (receiptData) => {
+
   const data = {
     ...receiptData,
     amount: Number(receiptData.amount),
     numInWords: numToWords(Number(receiptData.amount)),
+    date: JSON.stringify(receiptData.date).includes("/") ? receiptData.date : formattedDate(receiptData.date)
   };
   let doc = new jsPDF({
     orientation: "landscape",
@@ -22,8 +24,8 @@ export const generatePdf = async (receiptData) => {
   // doc.text(1, 3, 'शुभम');
   doc.text(data.receiptNo, 5, 13.1);
   doc.text(data.receiptNo, 18.5, 13.1);
-  doc.text(formattedDate(data.date), 12, 13.15);
-  doc.text(formattedDate(data.date), 25.75, 13.15);
+  doc.text(data.date, 12, 13.15);
+  doc.text(data.date, 25.75, 13.15);
 
   //   doc.text(data.amount, 4.1, 6.30)
   //   doc.text(data.amount, 10, 6.30)

@@ -11,4 +11,8 @@ export const actions = {
   setAuth:(store, payload) => {
     store.setState({ auth: payload });
   },
+  setAdminMode:(store, payload) => {
+    store.setState({ adminMode: payload });
+  },
+
 };

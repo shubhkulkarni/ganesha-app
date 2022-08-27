@@ -10,9 +10,9 @@ export async function fetchPayments(year = `receipt${currentYear}`) {
 
   console.log("respo", response);
   if (response && response.data) {
-    return await Object.values(response.data)
+    return await Object.entries(response.data)
       .reverse()
-      .map((item) => ({ ...item, date: formattedDate(item.date) }));
+      .map((item) => ({ ...item[1],_id:item[0], date: formattedDate(item[1].date) }));
   }
 
   return [];

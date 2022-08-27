@@ -16,12 +16,14 @@ import Select from "@material-ui/core/Select";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import CachedOutlinedIcon from "@material-ui/icons/CachedOutlined";
+import DeleteIcon from '@material-ui/icons/Delete';
 import { fetchPayments } from "../../services/fetchPayments";
 import { useGlobal } from "./../../global/global";
 import { getTotal } from "./../../utils/getTotal";
 import { NotificationManager } from "react-notifications";
 import CSVExporter from "../../components/Export/CSVExporter";
 import { generatePdf } from "./../../utils/pdfGenerator";
+import { deleteData } from "../../services/deleteService";
 const columns = [
   { field: "receiptNo", headerName: "Receipt No.", width: 150 },
   { field: "name", headerName: "Fullname", width: 250 },
@@ -48,17 +50,17 @@ const columns = [
 ];
 
 const receiptsYears = [
-  {text: "2029",key: "receipt2029"} ,
-  {text: "2028",key: "receipt2028"} ,
-  {text: "2027",key: "receipt2027"} ,
-  {text: "2026",key: "receipt2026"} ,
-  {text: "2025",key: "receipt2025"} ,
-  {text: "2024",key: "receipt2024"} , 
-  {text: "2023",key: "receipt2023"} , 
-  {text: "2022",key: "receipt2022"} ,
-  {text: "2021",key: "receipt2021"} , 
-  {text: "2020",key: "receipt2020"} , 
-  {text: "2019",key: "receipt"} 
+  { text: "2029", key: "receipt2029" },
+  { text: "2028", key: "receipt2028" },
+  { text: "2027", key: "receipt2027" },
+  { text: "2026", key: "receipt2026" },
+  { text: "2025", key: "receipt2025" },
+  { text: "2024", key: "receipt2024" },
+  { text: "2023", key: "receipt2023" },
+  { text: "2022", key: "receipt2022" },
+  { text: "2021", key: "receipt2021" },
+  { text: "2020", key: "receipt2020" },
+  { text: "2019", key: "receipt" }
 
 ]
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +127,19 @@ const useStyles = makeStyles((theme) => ({
     },
     // color: "#dc5319",
   },
+  dltBtn: {
+    background: "darkred",
+    color: "white",
+    marginRight: "10px"
+  },
+  extNrml:{
+    background: "white",
+    color: "black",
+    marginRight: "10px",
+    "&:hover":{
+      background: "wheat",
+    },
+  }
 }));
 
 function Profile() {
@@ -133,7 +148,8 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const currentYear = new Date().getFullYear();
   const [recordYear, setRecordYear] = useState(`receipt${currentYear}`);
-  const fetchData = async (year) => {
+  const [selectionModel, setSelectionModel] = useState([]);
+  const fetchData = React.useCallback(async (year) => {
     setLoading(true);
     try {
       let data = await fetchPayments(year);
@@ -145,12 +161,12 @@ function Profile() {
       NotificationManager.error(err.message, "Error");
       setLoading(false);
     }
-  };
+  },[actions]);
   useEffect(() => {
     if (!state.paymentsData.length) {
       fetchData(recordYear);
-    } 
-      
+    }
+
   }, []);
   const handleChange = (event) => {
     setRecordYear(event.target.value);
@@ -162,13 +178,45 @@ function Profile() {
   };
 
   const onRowClick = async ({ row }) => {
+    console.log(row)
     await generatePdf(row);
   };
   const getIndianNumber = (num) => {
     return num.toFixed(1).replace(/(\d)(?=(\d{2})+\d\.)/g, "$1,"); // "12,34,567.80"
   };
+
+  const onDeleteSelected = React.useCallback(async () => {
+    const confirmation = window.confirm("Are you sure to delete this record ? This operation cannot be reverted.")
+    if (confirmation && state.dataYear && !!selectionModel[0]) {
+      try {
+        await deleteData(state.dataYear, selectionModel[0]);
+        await fetchData(state.dataYear);
+      } catch (err) {
+        NotificationManager.error(err.message, "Error");
+      }
+    }
+  }, [selectionModel, fetchData, state.dataYear]);
+  const onDeleteAll = React.useCallback(async () => {
+    const barred = ["receipt", "receipt2020", "receipt2021"];
+    const confirmation = window.confirm("Are you sure to delete all records for the selected year ? This operation cannot be reverted.")
+    if (confirmation && state.dataYear) {
+
+      if (barred.includes(state.dataYear)) {
+          NotificationManager.error("'Delete all' option is disabled for this year!", "Error");
+      } else {
+
+        try {
+          await deleteData(state.dataYear);
+          await fetchData(state.dataYear);
+        } catch (err) {
+          NotificationManager.error(err.message, "Error");
+        }
+      }
+
+    }
+  }, [fetchData, state.dataYear]);
   return (
-    <div>
+    <div className={`adminMode-is-${state.adminMode}`}>
       <Box className={classes.paper1}>
         <Grid container spacing={3} alignItems="center" justify="center">
           <Grid xs={12} lg={6} md={6}>
@@ -188,6 +236,35 @@ function Profile() {
               >
                 {loading ? "Refreshing..." : "Refresh"}
               </Button>
+              {state.adminMode && state.paymentsData.length > 0 && <div>
+                <Button
+                  startIcon={<DeleteIcon />}
+                  className={classes.dltBtn}
+                  color="secondary"
+                  variant="contained"
+                  onClick={onDeleteSelected}
+                >
+                  Delete selected record
+                </Button>
+                <Button
+                  startIcon={<DeleteIcon />}
+                  className={classes.dltBtn}
+                  color="secondary"
+                  variant="contained"
+                  onClick={onDeleteAll}
+                >
+                  Delete all in {state.dataYear.replace("receipt", "") || "2019"}
+                </Button>
+                <Button
+                  startIcon={<CachedOutlinedIcon />}
+                  className={classes.extNrml}
+                  color="secondary"
+                  variant="contained"
+                  onClick={()=> actions.setAdminMode(false)}
+                >
+                  Exit to Normal Mode
+                </Button>
+              </div>}
             </Typography>
           </Grid>
           <Grid xs={12} lg={3} md={6}>
@@ -206,12 +283,12 @@ function Profile() {
                 value={recordYear}
                 onChange={handleChange}
                 label="Select year"
-              > 
+              >
                 {receiptsYears.map(item => {
-                  if(Number(item.text)<=Number(currentYear)){
+                  if (Number(item.text) <= Number(currentYear)) {
                     return <MenuItem value={item.key} key={item.key}>{item.text}</MenuItem>
-                  } 
-                    return <></>
+                  }
+                  return <></>
                 })}
               </Select>
             </FormControl>
@@ -259,8 +336,16 @@ function Profile() {
           rows={state.paymentsData}
           columns={columns}
           pageSize={15}
-          getRowId={(row) => row.receiptNo}
+          getRowId={(row) => row._id}
           onRowDoubleClick={onRowClick}
+          // checkboxSelection
+          // disableSelectionOnClick
+          disableMultipleSelection
+          onSelectionModelChange={(newSelectionModel) => {
+            console.log(newSelectionModel)
+            setSelectionModel(prev => newSelectionModel.selectionModel)
+          }}
+          selectionModel={selectionModel}
         />
       </Paper>
     </div>
