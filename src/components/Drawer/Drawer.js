@@ -115,9 +115,11 @@ function ResponsiveDrawer({ children, ...props }) {
       if(searchTxt===atob("ZGh1bmRoaXJhajk4NzZhZG1pbg==")){
         actions.setAdminMode(true);
         NotificationManager.warning("Admin mode activated !", "Admin mode");
+        setSearchTxt("");
       }
     }
   },[actions,searchTxt]);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
