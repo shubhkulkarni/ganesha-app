@@ -112,7 +112,7 @@ function ResponsiveDrawer({ children, ...props }) {
   
   const onSearch = React.useCallback((e)=>{
     if(e.key==="Enter"){
-      if(searchTxt===atob("ZGh1bmRoaXJhajk4NzZhZG1pbg==")){
+      if(searchTxt===atob("YWRtaW5AMTIzNGRodW5kaGlyYWo=")){
         actions.setAdminMode(true);
         NotificationManager.warning("Admin mode activated !", "Admin mode");
         setSearchTxt("");
