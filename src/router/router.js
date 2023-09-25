@@ -8,19 +8,7 @@ import { checkAuthStatus } from "../utils/auth";
 import Loader from "../components/Loader/Loader";
 function Router() {
   const [state, actions] = useGlobal();
-  //   return (
-  //     <ResponsiveDrawer>
-  //     <Suspense fallback={<div>Loading...</div>}>
-  //       <Switch>
-  //         {appRouter.map((route) => {
-  //           return <Route path={route.path} component={route.component} exact />;
-  //         })}
-  //         <Redirect from="/" to="/donate" />
-  //       </Switch>
-  //     </Suspense>
-  //     </ResponsiveDrawer>
-  //   );
-  // }
+
   useEffect(() => {
     let authStatus = checkAuthStatus();
     actions.setAuth(authStatus);

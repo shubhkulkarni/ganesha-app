@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import { lazy } from "react";
 
 export const appRouter = [
   { path: "/donate", component: lazy(() => import("../pages/Home/Home")) },

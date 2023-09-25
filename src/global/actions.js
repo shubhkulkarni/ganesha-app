@@ -1,18 +1,16 @@
-export const actions = {
-  setPaymentsData: (store, payload) => {
-    store.setState({ paymentsData: payload });
-  },
-  setPaymentsTotal: (store, payload) => {
-    store.setState({ paymentsTotal: payload });
-  },
-  setDataYear: (store, payload) => {
-    store.setState({ dataYear: payload });
-  },
-  setAuth:(store, payload) => {
-    store.setState({ auth: payload });
-  },
-  setAdminMode:(store, payload) => {
-    store.setState({ adminMode: payload });
-  },
-
-};
+export const reducers = (state, action) => {
+  switch (action.type) {
+    case "SET_PAYMENTS_DATA":
+      return { ...state, paymentsData: action.payload };
+    case "SET_PAYMENTS_TOTAL":
+      return { ...state, paymentsTotal: action.payload };
+    case "SET_DATA_YEAR":
+      return { ...state, dataYear: action.payload };
+    case "SET_AUTH":
+      return { ...state, auth: action.payload };
+    case "SET_ADMIN_MODE":
+      return { ...state, adminMode: action.payload };
+    default:
+      return state;
+  }
+}

@@ -12,34 +12,35 @@ export const generatePdf = async (receiptData) => {
     date: JSON.stringify(receiptData.date).includes("/") ? receiptData.date : formattedDate(receiptData.date)
   };
   let doc = new jsPDF({
-    orientation: "landscape",
-    unit: "cm",
-    format: "letter",
+    orientation: "portrait",
+    unit: "in",
+    format: "a4",
     // putOnlyUsedFonts:true
   });
   doc.setFontSize(14);
-  doc.setFont("Sarai_07");
+  
   //   doc.addFont('Devanagari.ttf', 'LohitMarathi', 'normal');
-
+  doc.setFont("Sarai_07","400");
   // doc.text(1, 3, 'शुभम');
-  doc.text(data.receiptNo, 5, 13.1);
-  doc.text(data.receiptNo, 18.5, 13.1);
-  doc.text(data.date, 12, 13.15);
-  doc.text(data.date, 25.75, 13.15);
+  doc.text(data.receiptNo, 2.4, 2.3);
+
+  doc.text(data.date, 5.8, 2.3);
+  
 
   //   doc.text(data.amount, 4.1, 6.30)
   //   doc.text(data.amount, 10, 6.30)
-  doc.text(data.name, 4, 14.15);
-  doc.text(data.name, 17.75, 14.15);
+  doc.setFont("Sarai_07","","bold");
+  doc.text(data.name, 2.4, 2.67,{});
+  doc.setFont("Sarai_07","400");
+  doc.text("Rs. "+ data.amount.toFixed(2).toString() + " Only", 2.4, 3.07);
+  
+  doc.text(data.numInWords + "Rupees Only", 2.4, 3.47);
+ 
 
-  doc.text(data.numInWords + " Only", 5, 15.9);
-  doc.text(data.numInWords + " Only", 17, 15.9);
-
-  doc.setFontSize(16);
-  doc.text(data.mobile.toString(), 3.8, 17.63);
-  doc.text(data.mobile.toString(), 17.5, 17.63);
-  doc.text(data.amount.toFixed(2).toString(), 10.8, 17.63);
-  doc.text(data.amount.toFixed(2).toString(), 24.3, 17.63);
+  
+  // doc.text(data.mobile.toString(), 3.8, 17.63);
+  // doc.text(data.mobile.toString(), 17.5, 17.63);
+  
 
   await doc.save(data.receiptNo + "_Receipt.pdf");
   NotificationManager.success(
